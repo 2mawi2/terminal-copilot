@@ -8,8 +8,8 @@ from urllib.parse import quote
 import platform
 import json
 
-from copilot import history
 from conversation import Conversation
+from copilot import history
 from open_ai_adapter import request_cmds, stream_cmd_into_terminal
 from parse_os import parse_operating_system, OperatingSystem
 from parse_args import parse_terminal_copilot_args
@@ -48,14 +48,13 @@ def main():
 
     current_dir = os.getcwd()
     directory_list = os.listdir()
-
-
+    history_size = 100
     context = Context(
         shell=shell,
         operating_system=operating_system,
         directory=current_dir,
         directory_list=directory_list,
-        history=history.get_history() if args.history and is_unix_system() else "",
+        history=history.get_history(history_size) if args.history and is_unix_system() else "",
         command=" ".join(args.command),
         git=git_info() if args.git else "",
         model=args.model,
@@ -71,7 +70,7 @@ The user is currently in the following directory:
 {current_dir}
 That directory contains the following files:
 [{", ".join(directory_list)[:300]}]
-{history.get_history() if args.history and is_unix_system() else ""}
+{history.get_history(history_size) if args.history and is_unix_system() else ""}
 The user has several environment variables set, some of which are:
 {environs}
 {git_info() if args.git else ""}
@@ -164,10 +163,7 @@ def read_input():
 def refine_command(conversation: Conversation, cmd, args):
     refinement = read_input()
     conversation.messages.append({"role": "assistant", "content": cmd})
-    refinement_command = f"""The user requires a command for the following prompt: `{refinement}`.
-ONLY OUTPUT THE COMMAND. No description, no explanation, no nothing.
-Do not add any text in front of it and do not add any text after it.
-The command the user is looking for is: `"""
+    refinement_command = f"""The user requires and improvement of the last suggested and not yet executed command with the following prompt: `{refinement}`. The command the user is looking for is: `"""
     conversation.messages.append({"role": "user", "content": refinement_command})
     cmd = fetch_and_print_cmd(conversation, args)
     show_command_options(conversation, cmd, args)
@@ -190,7 +186,7 @@ def execute(conversation: Conversation, cmd, args):
 
 
 def refine_failed_command(conversation: Conversation, cmd, error, args):
-    error = error[:300]
+    error = error[:500]
     conversation.messages.append({"role": "assistant", "content": cmd})
     failed_command = f"The last suggested command of the assistant failed with the error: `{error}`." \
                      f"The corrected command (and only the command) is:`"

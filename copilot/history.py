@@ -39,7 +39,7 @@ The user has recently run these last {min(len(commands), n)} commands:
     return history
 
 
-def get_history(n=40):
+def get_history(n):
     if shell_adapter.is_fish():
         return history_prompt_for(_fish_commands(), n)
     if shell_adapter.is_zsh():
