@@ -33,8 +33,8 @@ def parse_terminal_copilot_args():
         "-c", "--count", help="The number of commands to output when JSON output is specified."
     )
     parser.add_argument(
-        "-m", "--model", type=argparse_model_type, default=Model.GPT_35_TURBO,
-        help="The model to use. Defaults to gpt-3.5-turbo."
+        "-m", "--model", type=argparse_model_type, default=Model.GPT_4,
+        help="The model to use. Defaults to gpt-4-1106-preview."
     )
     parser.add_argument(
         "-ns", "--no-stream", action="store_true",

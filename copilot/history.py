@@ -1,4 +1,4 @@
-from copilot import history_file, shell_adapter
+import history_file, shell_adapter
 
 
 def _is_command(line):

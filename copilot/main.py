@@ -9,7 +9,7 @@ import platform
 import json
 
 from conversation import Conversation
-from copilot import history
+import history
 from open_ai_adapter import request_cmds, stream_cmd_into_terminal
 from parse_os import parse_operating_system, OperatingSystem
 from parse_args import parse_terminal_copilot_args

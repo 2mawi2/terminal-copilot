@@ -2,7 +2,7 @@ import os
 from time import time
 import platform
 
-from copilot import shell_adapter
+import shell_adapter
 
 
 def _fish_history_file_location():
