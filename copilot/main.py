@@ -175,15 +175,14 @@ def execute(conversation: Conversation, cmd, args):
         out = result.stdout
         error = result.stderr
         print(out)
-        print(error)
-        if error != "" and error is not None:
+        if result.returncode != 0:
+            print(error)
             refine_failed_command(conversation, cmd, error, args)
         else:
             history.save(cmd)
     except Exception as e:
         print(e)
         refine_failed_command(conversation, cmd, str(e), args)
-
 
 def refine_failed_command(conversation: Conversation, cmd, error, args):
     error = error[:500]
