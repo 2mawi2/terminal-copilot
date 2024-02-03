@@ -90,14 +90,6 @@ The user has the following aliases set:
         print("Sent this conversation to OpenAI:")
         print(conversation)
 
-    openai.api_key = os.environ.get("OPENAI_API_KEY")
-    if openai.api_key is None:
-        print("To use copilot please set the OPENAI_API_KEY environment variable")
-        print("You can get an API key from https://beta.openai.com/account/api-keys")
-        print("To set the environment variable, run:")
-        print("export OPENAI_API_KEY=<your key>")
-        sys.exit(1)
-
     if args.json:
         cmds = request_cmds(conversation, n=int(args.count) if args.json and args.count else 1)
         print(json.dumps({
