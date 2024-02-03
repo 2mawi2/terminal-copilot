@@ -6,9 +6,6 @@ import tiktoken
 
 def user_message(context: Context):
     return context.command
-    return f"""
-The user requires a command for the following prompt: `{context.command}`
-The command the user is looking for is:`"""
 
 
 def system_prompt(context: Context):
